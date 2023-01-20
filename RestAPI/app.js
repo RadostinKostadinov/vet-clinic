@@ -1,6 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import sql from 'mssql';
+import dbConfig from './dbFiles/dbConfig.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -13,9 +15,19 @@ app.use(cors());
 app.use('/static', express.static('./static'));
 
 app.get('/', (req, res) => {
-  res.send('VET CLINIC API - working');
+  res.send('VET CLINIC API - working.');
 });
 
 app.listen(PORT, () => {
-  console.log('SUCCESS: VET CLINIC API - started');
+  console.log('SUCCESS: VET CLINIC API - started.');
 });
+
+sql.connect(dbConfig, (err) => {
+  if (err) {
+    throw new Error('Can\'t connect to DB. ' + '\n' + 'Problem: ' + err.message);
+  } else {
+    console.log('SUCCESS: VET CLINIC API - connected to DB.');
+  }
+});
+
+
