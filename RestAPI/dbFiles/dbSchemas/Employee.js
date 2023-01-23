@@ -1,26 +1,36 @@
-class Employee {
-  constructor(employeeID, username, password, firstname, lastname, phone, address) {
-    this.employeeID = employeeID;
-    this.firstName = firstname;
-    this.lastName = lastname;
+export default class Employee {
+  #employeeID;
+  #firstName;
+  #lastName;
+  #userName;
+  #password;
+
+  constructor(employeeID, username, password, firstname, lastname) {
+    this.#employeeID = employeeID;
     this.userName = username;
     this.password = password;
+    this.firstName = firstname;
+    this.lastName = lastname;
+  }
+
+  get employeeID() {
+    return this.#employeeID;
   }
 
   get firstName() {
-    return this.firstname;
+    return this.#firstName;
   }
 
   get lastName() {
-    return this.lastname;
+    return this.#lastName;
   }
 
   get userName() {
-    return this.username;
+    return this.#userName;
   }
 
   get password() {
-    return this.password;
+    return this.#password;
   }
 
   set firstName(firstname) {
@@ -35,7 +45,7 @@ class Employee {
     if (firstname.length > 15) {
       throw new Error('First name exceeds the maximum length of 15 characters.');
     }
-    this.firstname = firstname;
+    this.#firstName = firstname;
   }
 
   set lastName(lastname) {
@@ -50,7 +60,7 @@ class Employee {
     if (lastname.length > 15) {
       throw new Error('Last name exceeds the maximum length of 15 characters.');
     }
-    this.lastname = lastname;
+    this.#lastName = lastname;
   }
 
   set userName(username) {
@@ -65,7 +75,7 @@ class Employee {
     if (username.length > 15) {
       throw new Error('Username exceeds the maximum length of 15 characters.');
     }
-    this.username = username;
+    this.#userName = username;
   }
 
   set password(password) {
@@ -80,8 +90,10 @@ class Employee {
     if (password.length > 20) {
       throw new Error('Password exceeds the maximum length of 20 characters.');
     }
-    this.password = password;
+    this.#password = password;
+  }
+
+  set hashedPassword(password) {
+    this.#password = password;
   }
 }
-
-export { Employee };
