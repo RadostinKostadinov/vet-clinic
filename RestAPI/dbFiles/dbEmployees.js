@@ -77,7 +77,7 @@ async function createEmployee(employee) {
  */
 async function updateEmployee(employee) {
   if (!(employee instanceof Employee)) {
-    throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
+    throw new Error('Argument 1 in function updateEmployee must be an instance of class "Employee".');
   }
 
   if (employee.password.length < 20) {
@@ -106,7 +106,7 @@ async function updateEmployee(employee) {
  */
 async function deleteEmployeeById(employee) {
   if (!(employee instanceof Employee)) {
-    throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
+    throw new Error('Argument 1 in function deleteEmployeeById must be an instance of class "Employee".');
   }
 
   return new Promise((resolve, reject) => {
