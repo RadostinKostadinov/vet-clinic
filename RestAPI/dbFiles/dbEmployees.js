@@ -45,6 +45,9 @@ function getEmployeeById(id) {
   });
 }
 
+/**
+ * @return {Employee}
+ */
 async function createEmployee(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
@@ -69,6 +72,9 @@ async function createEmployee(employee) {
   });
 }
 
+/**
+ * @return {Employee}
+ */
 async function updateEmployee(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
@@ -95,6 +101,9 @@ async function updateEmployee(employee) {
   });
 }
 
+/**
+ * @return {sql.IResult}
+ */
 async function deleteEmployeeById(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
