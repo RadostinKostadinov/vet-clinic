@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import Client from './dbSchemas/Client.js';
 
 /**
- * @returns {Promise<Clients[]>}
+ * @returns {Promise<Client[]>}
  */
 function getClients() {
   return new Promise((resolve, reject) => {

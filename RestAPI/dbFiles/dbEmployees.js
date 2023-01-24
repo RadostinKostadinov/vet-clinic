@@ -3,9 +3,9 @@ import bcrypt from 'bcrypt';
 import Employee from './dbSchemas/Employee.js';
 
 /**
- * @returns {Array<Employee>}
+ * @returns {Promise<Employee[]>}
  */
-async function getEmployees() {
+function getEmployees() {
   return new Promise((resolve, reject) => {
     sql.query('SELECT * from VetClinic.Employees').then((res) => {
       const employees = [];
@@ -22,7 +22,7 @@ async function getEmployees() {
 }
 
 /**
- * @return {Promise.<Employee>}
+ * @return {Promise<Employee>}
  */
 function getEmployeeById(id) {
   return new Promise((resolve, reject) => {
@@ -42,14 +42,14 @@ function getEmployeeById(id) {
 }
 
 /**
- * @return {Employee}
+ * @return {Promise<Employee>}
  */
-async function createEmployee(employee) {
+function createEmployee(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function createEmployee must be an instance of class "Employee".');
   }
 
-  employee.hashedPassword = await bcrypt.hash(employee.password, 10).then((hashedPw) => {
+  employee.hashedPassword = bcrypt.hashSync(employee.password, 10).then((hashedPw) => {
     return hashedPw;
   });
 
@@ -67,9 +67,9 @@ async function createEmployee(employee) {
 }
 
 /**
- * @return {Employee}
+ * @return {Promise<Employee>}
  */
-async function updateEmployee(employee) {
+function updateEmployee(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function updateEmployee must be an instance of class "Employee".');
   }
@@ -94,9 +94,9 @@ async function updateEmployee(employee) {
 }
 
 /**
- * @return {sql.IResult}
+ * @return {Promise<sql.IResult>}
  */
-async function deleteEmployeeById(employee) {
+function deleteEmployeeById(employee) {
   if (!(employee instanceof Employee)) {
     throw new Error('Argument 1 in function deleteEmployeeById must be an instance of class "Employee".');
   }
