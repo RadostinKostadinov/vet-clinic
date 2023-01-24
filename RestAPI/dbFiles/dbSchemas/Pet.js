@@ -1,6 +1,15 @@
-class Pet {
+export default class Pet {
+  #petID;
+  #type;
+  #breed;
+  #name;
+  #birthdate;
+  #sex;
+  #info;
+  #ownerID;
+
   constructor(petID, type, breed, name, birthdate, sex, info, ownerID) {
-    this.petID = petID;
+    this.#petID = petID;
     this.type = type;
     this.breed = breed;
     this.name = name;
@@ -10,32 +19,36 @@ class Pet {
     this.ownerID = ownerID;
   }
 
+  get petID() {
+    return this.#petID;
+  }
+
   get type() {
-    return this.type;
+    return this.#type;
   }
 
   get breed() {
-    return this.breed;
+    return this.#breed;
   }
 
   get name() {
-    return this.name;
+    return this.#name;
   }
 
   get birthdate() {
-    return this.birthdate;
+    return this.#birthdate;
   }
 
   get sex() {
-    return this.sex;
+    return this.#sex;
   }
 
   get info() {
-    return this.info;
+    return this.#info;
   }
 
   get ownerID() {
-    return this.ownerID;
+    return this.#ownerID;
   }
 
   set type(type) {
@@ -50,7 +63,7 @@ class Pet {
     if (type.length > 20) {
       throw new Error('Type exceeds the maximum length of 20 characters.');
     }
-    this.type = type;
+    this.#type = type;
   }
 
   set breed(breed) {
@@ -65,7 +78,7 @@ class Pet {
     if (breed.length > 20) {
       throw new Error('Breed exceeds the maximum length of 20 characters.');
     }
-    this.breed = breed;
+    this.#breed = breed;
   }
 
   set name(name) {
@@ -80,7 +93,7 @@ class Pet {
     if (name.length > 20) {
       throw new Error('Name exceeds the maximum length of 20 characters.');
     }
-    this.name = name;
+    this.#name = name;
   }
 
   set birthdate(birthdate) {
@@ -91,7 +104,7 @@ class Pet {
     if (birthdate instanceof Date === false && !isNaN(birthdate)) {
       throw new Error('Birthdate must be of type \'Date\'.');
     }
-    this.birthdate = birthdate;
+    this.#birthdate = birthdate;
   }
 
   set sex(sex) {
@@ -103,14 +116,14 @@ class Pet {
       throw new Error('Sex must be exact 1 character (M/F).');
     }
 
-    this.sex = sex;
+    this.#sex = sex;
   }
 
   set info(info) {
     if (info.length > 2000) {
       throw new Error('Info exceeds the maximum length of 2000 characters.');
     }
-    this.info = info;
+    this.#info = info;
   }
 
   set ownerID(ownerID) {
@@ -118,8 +131,6 @@ class Pet {
     if (ownerID === 'NaN') {
       throw new Error('OwnerID must be a valid number.');
     }
-    this.ownerID = ownerID;
+    this.#ownerID = ownerID;
   }
 }
-
-export { Pet };
