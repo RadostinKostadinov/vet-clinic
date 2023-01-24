@@ -2,11 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import sql from 'mssql';
-import bcrypt from 'bcrypt';
 
 import dbConfig from './dbFiles/dbConfig.js';
-import dbEmployees from './dbFiles/dbEmployees.js';
-import Employee from './dbFiles/dbSchemas/Employee.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
