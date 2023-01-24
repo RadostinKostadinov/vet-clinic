@@ -7,7 +7,7 @@ import Employee from './dbSchemas/Employee.js';
  */
 function getEmployees() {
   return new Promise((resolve, reject) => {
-    sql.query('SELECT * from VetClinic.Employees').then((res) => {
+    sql.query('SELECT * from VetClinic.Employees WHERE IsDeleted=0;').then((res) => {
       const employees = [];
       for (let i = 0; i < res.recordset.length; i++) {
         const employeeObj = new Employee(res.recordset[i].EmployeeID, res.recordset[i].Username, 'hashedpassword', res.recordset[i].Firstname, res.recordset[i].Lastname);
@@ -31,7 +31,7 @@ function getEmployeeById(id) {
       reject(new Error('ID must be a valid number.'));
     }
 
-    sql.query(`SELECT * from VetClinic.Employees WHERE EmployeeID=${id}`).then((res) => {
+    sql.query(`SELECT * from VetClinic.Employees WHERE EmployeeID=${id} AND IsDeleted=0;`).then((res) => {
       const employee = new Employee(res.recordset[0].EmployeeID, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname);
       employee.hashedPassword = res.recordset[0].Password;
       resolve(employee);
@@ -102,7 +102,7 @@ function deleteEmployeeById(employee) {
   }
 
   return new Promise((resolve, reject) => {
-    sql.query(`DELETE FROM VetClinic.Employees WHERE EmployeeID=${employee.employeeID};`).then((res) => {
+    sql.query(`UPDATE VetClinic.Employees SET IsDeleted='${employee.employeeID}' WHERE EmployeeID=${employee.employeeID};`).then((res) => {
       resolve(res);
     }).catch((error) => {
       reject(error);

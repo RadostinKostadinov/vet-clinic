@@ -7,7 +7,7 @@ import Client from './dbSchemas/Client.js';
  */
 function getClients() {
   return new Promise((resolve, reject) => {
-    sql.query('SELECT * from VetClinic.Clients').then((res) => {
+    sql.query('SELECT * from VetClinic.Clients WHERE IsDeleted=0;').then((res) => {
       const clients = [];
       for (let i = 0; i < res.recordset.length; i++) {
         const ClientObj = new Client(res.recordset[i].ClientID, res.recordset[i].Username, 'hashedpassword', res.recordset[i].Firstname, res.recordset[i].Lastname, res.recordset[i].Phone, res.recordset[i].Address);
@@ -31,7 +31,7 @@ function getClientById(id) {
       reject(new Error('ID must be a valid number.'));
     }
 
-    sql.query(`SELECT * from VetClinic.Clients WHERE ClientID=${id}`).then((res) => {
+    sql.query(`SELECT * from VetClinic.Clients WHERE ClientID=${id} AND IsDeleted=0;`).then((res) => {
       if (res.rowsAffected[0] === 0) {
         reject(new Error('No client with ID ' + id));
       }
@@ -49,7 +49,7 @@ function getClientById(id) {
  */
 function getClientByUsername(username) {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * from VetClinic.Clients WHERE Username=N'${username}'`).then((res) => {
+    sql.query(`SELECT * from VetClinic.Clients WHERE Username=N'${username}' AND IsDeleted=0;`).then((res) => {
       if (res.rowsAffected[0] === 0) {
         reject(new Error('No client with username: ' + username));
       }
@@ -76,7 +76,7 @@ function createClient(client) {
   return new Promise((resolve, reject) => {
     sql.query(`INSERT INTO VetClinic.Clients 
       OUTPUT INSERTED.ClientID, INSERTED.Username, INSERTED.Password, INSERTED.Firstname, INSERTED.Lastname, INSERTED.Phone, INSERTED.Address
-      VALUES (N'${client.userName}', N'${client.password}', N'${client.firstName}', N'${client.lastName}', '${client.phone}', N'${client.address}')`).then((res) => {
+      VALUES (N'${client.userName}', N'${client.password}', N'${client.firstName}', N'${client.lastName}', '${client.phone}', N'${client.address}', '0')`).then((res) => {
       const ClientObj = new Client(res.recordset[0].ClientID, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname, res.recordset[0].Phone, res.recordset[0].Address);
       ClientObj.hashedPassword = res.recordset[0].Password;
       resolve(ClientObj);
@@ -125,7 +125,7 @@ function deleteClient(client) {
   }
 
   return new Promise((resolve, reject) => {
-    sql.query(`DELETE FROM VetClinic.Clients WHERE ClientID=${client.clientID};`).then((res) => {
+    sql.query(`UPDATE VetClinic.Clients SET IsDeleted='${client.clientID}' WHERE ClientID=${client.clientID};`).then((res) => {
       resolve(res);
     }).catch((error) => {
       reject(error);

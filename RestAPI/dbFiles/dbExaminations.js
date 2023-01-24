@@ -6,7 +6,7 @@ import Examination from './dbSchemas/Examination.js';
  */
 function getExaminations() {
   return new Promise((resolve, reject) => {
-    sql.query('SELECT * from VetClinic.Examinations')
+    sql.query('SELECT * from VetClinic.Examinations WHERE IsDeleted = 0')
       .then((res) => {
         const examinations = [];
         for (let i = 0; i < res.recordset.length; i++) {
@@ -32,7 +32,7 @@ function getExaminationById(id) {
       reject(new Error('ID must be a valid number.'));
     }
 
-    sql.query(`SELECT * from VetClinic.Examinations WHERE ExaminationID=${id};`)
+    sql.query(`SELECT * from VetClinic.Examinations WHERE ExaminationID=${id} AND IsDeleted = 0;`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
           reject(new Error('No examination with ID ' + id));
@@ -54,7 +54,7 @@ function getExaminationById(id) {
  */
 function getExaminationsByPet(pet) {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * from VetClinic.Examinations WHERE Pet=${pet.petID};`)
+    sql.query(`SELECT * from VetClinic.Examinations WHERE Pet=${pet.petID} AND IsDeleted = 0;`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
           reject(new Error('Pet with name "' + pet.name + '" has no previous examinations.'));
@@ -136,7 +136,7 @@ function deleteExamination(examination) {
   }
 
   return new Promise((resolve, reject) => {
-    sql.query(`DELETE FROM VetClinic.Examinations WHERE ExaminationID=${examination.examinationID};`)
+    sql.query(`UPDATE VetClinic.Examinations SET IsDeleted='${examination.examinationID}' WHERE ExaminationID=${examination.examinationID};`)
       .then((res) => {
         resolve(res);
       })

@@ -6,7 +6,7 @@ import Pet from './dbSchemas/Pet.js';
  */
 function getPets() {
   return new Promise((resolve, reject) => {
-    sql.query('SELECT * from VetClinic.Pets').then((res) => {
+    sql.query('SELECT * from VetClinic.Pets WHERE IsDeleted = 0;').then((res) => {
       const pets = [];
       for (let i = 0; i < res.recordset.length; i++) {
         const PetObj = new Pet(res.recordset[i].PetID, res.recordset[i].Type, res.recordset[i].Breed, res.recordset[i].Name, res.recordset[i].Birthdate, res.recordset[i].Sex, res.recordset[i].Info, res.recordset[i].Owner);
@@ -30,7 +30,7 @@ function getPetById(id) {
       reject(new Error('ID must be a valid number.'));
     }
 
-    sql.query(`SELECT * from VetClinic.Pets WHERE PetID=${id}`).then((res) => {
+    sql.query(`SELECT * from VetClinic.Pets WHERE PetID=${id} AND IsDeleted = 0;`).then((res) => {
       if (res.rowsAffected[0] === 0) {
         reject(new Error('No pet with ID ' + id));
       }
@@ -49,7 +49,7 @@ function getPetById(id) {
  */
 function getPetsByOwner(client) {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * from VetClinic.Pets WHERE Owner=${client.clientID}`).then((res) => {
+    sql.query(`SELECT * from VetClinic.Pets WHERE Owner=${client.clientID} AND IsDeleted = 0;`).then((res) => {
       if (res.rowsAffected[0] === 0) {
         reject(new Error('Client with username "' + client.userName + '" doesn\'t have any pets.'));
       }
@@ -117,7 +117,7 @@ function deletePet(pet) {
   }
 
   return new Promise((resolve, reject) => {
-    sql.query(`DELETE FROM VetClinic.Pets WHERE PetID=${pet.petID};`).then((res) => {
+    sql.query(`UPDATE VetClinic.Pets SET IsDeleted='${pet.petID}' WHERE PetID=${pet.petID};`).then((res) => {
       resolve(res);
     }).catch((error) => {
       reject(error);
