@@ -1,36 +1,48 @@
-class Client {
+export default class Client {
+  #clientID;
+  #userName;
+  #password;
+  #firstName;
+  #lastName;
+  #phone;
+  #address;
+
   constructor(clientID, username, password, firstname, lastname, phone, address) {
-    this.clientID = clientID;
-    this.firstName = firstname;
-    this.lastName = lastname;
+    this.#clientID = clientID;
     this.userName = username;
     this.password = password;
+    this.firstName = firstname;
+    this.lastName = lastname;
     this.phone = phone;
     this.address = address;
   }
 
+  get clientID() {
+    return this.#clientID;
+  }
+
   get firstName() {
-    return this.firstname;
+    return this.#firstName;
   }
 
   get lastName() {
-    return this.lastname;
+    return this.#lastName;
   }
 
   get userName() {
-    return this.username;
+    return this.#userName;
   }
 
   get password() {
-    return this.password;
+    return this.#password;
   }
 
   get phone() {
-    return this.phone;
+    return this.#phone;
   }
 
   get address() {
-    return this.address;
+    return this.#address;
   }
 
   set firstName(firstname) {
@@ -45,7 +57,7 @@ class Client {
     if (firstname.length > 15) {
       throw new Error('First name exceeds the maximum length of 15 characters.');
     }
-    this.firstname = firstname;
+    this.#firstName = firstname;
   }
 
   set lastName(lastname) {
@@ -60,7 +72,7 @@ class Client {
     if (lastname.length > 15) {
       throw new Error('Last name exceeds the maximum length of 15 characters.');
     }
-    this.lastname = lastname;
+    this.#lastName = lastname;
   }
 
   set userName(username) {
@@ -75,7 +87,7 @@ class Client {
     if (username.length > 15) {
       throw new Error('Username exceeds the maximum length of 15 characters.');
     }
-    this.username = username;
+    this.#userName = username;
   }
 
   set password(password) {
@@ -90,7 +102,7 @@ class Client {
     if (password.length > 20) {
       throw new Error('Password exceeds the maximum length of 20 characters.');
     }
-    this.password = password;
+    this.#password = password;
   }
 
   set phone(phone) {
@@ -102,7 +114,7 @@ class Client {
       throw new Error('Phone number must be between 8 and 10 characters long.');
     }
 
-    this.phone = phone;
+    this.#phone = phone;
   }
 
   set address(address) {
@@ -113,7 +125,11 @@ class Client {
     if (address.length > 100) {
       throw new Error('Address exceeds the maximum length of 100 characters.');
     }
-    this.address = address;
+    this.#address = address;
+  }
+
+  set hashedPassword(password) {
+    this.#password = password;
   }
 }
 
