@@ -1,36 +1,48 @@
-class Examination {
-  constructor(examinationID, petID, employeeID, date, occasion, conclusion, length) {
-    this.examinationID = examinationID;
+export default class Examination {
+  #examinationID;
+  #petID;
+  #employeeID;
+  #examinationDate;
+  #occasion;
+  #conclusion;
+  #duration;
+
+  constructor(examinationID, petID, employeeID, examinationDate, occasion, conclusion, duration) {
+    this.#examinationID = examinationID;
     this.petID = petID;
     this.employeeID = employeeID;
-    this.date = date;
+    this.examinationDate = examinationDate;
     this.occasion = occasion;
     this.conclusion = conclusion;
-    this.length = length;
+    this.duration = duration;
+  }
+
+  get examinationID() {
+    return this.#examinationID;
   }
 
   get petID() {
-    return this.type;
+    return this.#petID;
   }
 
   get employeeID() {
-    return this.breed;
+    return this.#employeeID;
   }
 
-  get date() {
-    return this.name;
+  get examinationDate() {
+    return this.#examinationDate;
   }
 
   get occasion() {
-    return this.birthdate;
+    return this.#occasion;
   }
 
   get conclusion() {
-    return this.sex;
+    return this.#conclusion;
   }
 
-  get length() {
-    return this.info;
+  get duration() {
+    return this.#duration;
   }
 
   set petID(petID) {
@@ -38,7 +50,7 @@ class Examination {
     if (petID === 'NaN') {
       throw new Error('PetID must be a valid number.');
     }
-    this.petID = petID;
+    this.#petID = petID;
   }
 
   set employeeID(employeeID) {
@@ -46,10 +58,10 @@ class Examination {
     if (employeeID === 'NaN') {
       throw new Error('EmployeeID must be a valid number.');
     }
-    this.employeeID = employeeID;
+    this.#employeeID = employeeID;
   }
 
-  set date(date) {
+  set examinationDate(date) {
     if (date === undefined || date === null || date === '') {
       throw new Error('Examination date can\'t be empty.');
     }
@@ -57,30 +69,28 @@ class Examination {
     if (date instanceof Date === false && !isNaN(date)) {
       throw new Error('Examination date must be of type \'Date\'.');
     }
-    this.date = date;
+    this.#examinationDate = date;
   }
 
   set occasion(occasion) {
     if (occasion.length > 200) {
       throw new Error('Occasion exceeds the maximum length of 200 characters.');
     }
-    this.occasion = occasion;
+    this.#occasion = occasion;
   }
 
   set conclusion(conclusion) {
     if (conclusion.length > 2000) {
       throw new Error('Conclusion exceeds the maximum length of 2000 characters.');
     }
-    this.conclusion = conclusion;
+    this.#conclusion = conclusion;
   }
 
-  set length(minutes) {
+  set duration(minutes) {
     minutes = parseInt(minutes);
     if (minutes === 'NaN') {
       throw new Error('Length must be a valid number (minutes, integer).');
     }
-    this.length = minutes;
+    this.#duration = minutes;
   }
 }
-
-export { Examination };
