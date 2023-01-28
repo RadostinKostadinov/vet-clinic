@@ -17,6 +17,13 @@
         "space-before-function-paren": [
             "error",
             "never"
+        ],
+        "accessor-pairs": [
+            "error",
+            {
+                "setWithoutGet": false,
+                "enforceForClassMembers": true
+            }
         ]
     }
 }

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const config = {
+const DatabaseConfig = {
   server: process.env.DB_SERVER,
   database: process.env.DB_DATABASE,
   user: process.env.DB_UID,
@@ -12,4 +12,4 @@ const config = {
   }
 };
 
-export default config;
+export default DatabaseConfig;
