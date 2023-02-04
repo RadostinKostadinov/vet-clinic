@@ -1,0 +1,32 @@
+.month-wrapper {
+  display: block;
+  position: relative;
+  height: 80vh;
+  width: 100%;
+}
+
+.month-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 9%;
+  cursor: default;
+}
+
+.month-head > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Montserrat-Bold";
+  color: var(--month-days-color);
+  font-size: 24px;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+
+  height: 91%;
+  width: 100%;
+}

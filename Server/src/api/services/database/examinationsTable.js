@@ -47,6 +47,66 @@ function getExaminationById(id) {
 }
 
 /**
+ * @param {String} date
+ * @return {Promise<Examination>}
+ */
+function getExaminationsByDate(from, to) {
+  return new Promise((resolve, reject) => {
+    from.replaceAll("'", "''");
+    to.replaceAll("'", "''");
+    sql.query(`SELECT * from VetClinic.OurExaminations WHERE ExaminationDate between '${from} 00:00:00' and '${to} 23:59:59';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error(`No examinations between ${from} and ${to}`);
+          error.code = 'examinations-not-found';
+          reject(error);
+        }
+
+        const examinations = [];
+        for (let i = 0; i < res.recordset.length; i++) {
+          const examination = new Examination(res.recordset[i].ExaminationId, res.recordset[i].Pet, res.recordset[i].Employee, res.recordset[i].ExaminationDate, res.recordset[i].Occasion, res.recordset[i].Conclusion, res.recordset[i].Duration);
+          examinations.push(examination);
+        }
+
+        resolve(examinations);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
+ * @param {String} date
+ * @return {Promise<Examination>}
+ */
+function getExaminationsInfoByDate(from, to) {
+  return new Promise((resolve, reject) => {
+    from.replaceAll("'", "''");
+    to.replaceAll("'", "''");
+    sql.query(`SELECT * from VetClinic.ExaminationsInfo WHERE ExaminationDate between '${from} 00:00:00' and '${to} 23:59:59';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error(`No examinations between ${from} and ${to}`);
+          error.code = 'examinations-not-found';
+          reject(error);
+        }
+
+        const examinations = [];
+        for (let i = 0; i < res.recordset.length; i++) {
+          const examination = { examinationId: res.recordset[i].ExaminationId, petName: res.recordset[i].PetName, clientName: res.recordset[i].ClientName, employeeUsername: res.recordset[i].Employee, examinationDate: res.recordset[i].ExaminationDate, occasion: res.recordset[i].Occasion, duration: res.recordset[i].Duration };
+          examinations.push(examination);
+        }
+
+        resolve(examinations);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
  * @param {Pet} pet
  * @return {Promise<Examination[]>}
  */
@@ -132,4 +192,4 @@ function deleteExamination(id) {
   });
 }
 
-export default { getAllExaminations, getExaminationById, getExaminationsByPetId, createExamination, updateExamination, deleteExamination };
+export default { getAllExaminations, getExaminationById, getExaminationsByDate, getExaminationsByPetId, getExaminationsInfoByDate, createExamination, updateExamination, deleteExamination };

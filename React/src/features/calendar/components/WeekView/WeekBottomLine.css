@@ -1,0 +1,24 @@
+.week-bottom-line {
+  display: flex;
+  align-items: flex-start;
+  height: 5vh;
+  width: 100%;
+  background-color: transparent;
+}
+
+.week-of-day {
+  text-align: center;
+  flex: 1;
+  align-self: center;
+}
+
+.startspace {
+  flex: none;
+  width: 5%;
+  height: 100%;
+}
+
+.endspace {
+  width: 20px;
+  height: 100%;
+}

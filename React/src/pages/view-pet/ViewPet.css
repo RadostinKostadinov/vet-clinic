@@ -1,0 +1,12 @@
+.viewpet-wrapper {
+  position: relative;
+  width: 90%;
+  left: 5%;
+
+  padding-bottom: 20px;
+}
+
+.viewpet-examinations {
+  height: 48vh;
+  overflow: auto;
+}

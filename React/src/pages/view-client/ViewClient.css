@@ -1,0 +1,12 @@
+.viewclient-wrapper {
+  position: relative;
+  width: 90%;
+  left: 5%;
+
+  padding-bottom: 20px;
+}
+
+.viewclient-pets {
+  height: 66vh;
+  overflow: auto;
+}

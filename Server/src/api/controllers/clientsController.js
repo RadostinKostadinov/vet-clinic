@@ -8,6 +8,7 @@ export default {
     getAllClients,
     getClientById,
     getClientByUsername,
+    getClientsByTerm,
     createClient,
     updateClient,
     deleteClient
@@ -25,6 +26,7 @@ async function getAllClients(req, res) {
     res.status(200).json(clientsList);
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] getAllClients: ${error.message}`);
+
     res.status(500).send('Unable to fetch data from database.');
   }
 }
@@ -38,7 +40,7 @@ async function getClientById(req, res) {
     clientValidations.clientId(req.params.id);
     const client = await clientsTable.getClientById(req.params.id);
 
-    res.status(200).json(client);
+    res.status(200).send(client.toJSON());
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] getClientById: ${error.message}`);
 
@@ -82,9 +84,31 @@ async function getClientByUsername(req, res) {
  * @param {Request} req
  * @param {Response} res
  */
+async function getClientsByTerm(req, res) {
+  try {
+    // ToDo: Validate search term
+    clientValidations.firstName(req.params.searchTerm);
+    const client = await clientsTable.getClientsByTerm(req.params.searchTerm);
+
+    res.status(200).json(client);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getClientsBySearchTerm: ${error.message}`);
+
+    if (error.code === 'user-not-found') {
+      return res.status(404).json(`No clients with term "${req.params.searchTerm}".`);
+    }
+
+    res.status(500).send('Unable to fetch data from database.');
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 async function createClient(req, res) {
   try {
-    const newClient = new Client(0, req.body.userName, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.address);
+    const newClient = new Client(0, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.address);
     const client = await clientsTable.createClient(newClient);
 
     res.status(200).json(client);
@@ -92,7 +116,7 @@ async function createClient(req, res) {
     console.error(`[${new Date().toLocaleString()}] createClient: ${error.message}`);
     // SQL SERVER ERROR 2627 (Unique Key Violation)
     if (error.number === 2627) {
-      return res.status(400).send('Username is already in use.');
+      return res.status(400).json('Username is already in use.');
     }
 
     res.status(500).send(error.message);

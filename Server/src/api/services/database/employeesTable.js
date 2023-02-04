@@ -11,7 +11,7 @@ function getAllEmployees() {
       .then((res) => {
         const employees = [];
         for (let i = 0; i < res.recordset.length; i++) {
-          const employee = new Employee(res.recordset[i].EmployeeID, res.recordset[i].Username, 'hashedpassword', res.recordset[i].Firstname, res.recordset[i].Lastname);
+          const employee = new Employee(res.recordset[i].EmployeeId, res.recordset[i].Username, 'hashedpassword', res.recordset[i].Firstname, res.recordset[i].Lastname);
           employee.hashedPassword = res.recordset[i].Password;
           employees.push(employee);
         }
@@ -35,11 +35,32 @@ function getEmployeeById(id) {
           error.code = 'employee-not-found';
           throw error;
         }
-        const employee = new Employee(res.recordset[0].EmployeeID, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname);
+        const employee = new Employee(res.recordset[0].EmployeeId, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname);
         employee.hashedPassword = res.recordset[0].Password;
         resolve(employee);
       })
       .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
+ * @return {Promise<Client>}
+ */
+function getEmployeeByUsername(username) {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT * from VetClinic.OurEmployees WHERE Username='${username}';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error(`No employee with username "${username}"`);
+          error.code = 'user-not-found';
+          reject(error);
+        }
+        const employee = new Employee(res.recordset[0].EmployeeId, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname);
+        employee.hashedPassword = res.recordset[0].Password;
+        resolve(employee);
+      }).catch((error) => {
         reject(error);
       });
   });
@@ -60,7 +81,7 @@ async function createEmployee(employee) {
       OUTPUT INSERTED.userName, INSERTED.firstName, INSERTED.lastName, INSERTED.password, INSERTED.employeeId
       VALUES ('${employee.userName}', '${employee.password}', '${employee.firstName}', '${employee.lastName}')`)
       .then((res) => {
-        const employee = new Employee(res.recordset[0].EmployeeId, res.recordset[0].userName, 'hashedpassword', res.recordset[0].firstName, res.recordset[0].lastName);
+        const employee = new Employee(res.recordset[0].employeeId, res.recordset[0].userName, 'hashedpassword', res.recordset[0].firstName, res.recordset[0].lastName);
         employee.hashedPassword = res.recordset[0].password;
         resolve(employee);
       })
@@ -100,4 +121,4 @@ function deleteEmployeeById(id) {
   });
 }
 
-export default { getAllEmployees, getEmployeeById, createEmployee, updateEmployee, deleteEmployeeById };
+export default { getAllEmployees, getEmployeeById, getEmployeeByUsername, createEmployee, updateEmployee, deleteEmployeeById };

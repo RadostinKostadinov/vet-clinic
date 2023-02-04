@@ -1,4 +1,4 @@
-import { petValidations } from '../validations/index.js';
+import { clientValidations, petValidations } from '../validations/index.js';
 import petsTable from '../services/database/petsTable.js';
 import { Pet } from '../models/index.js';
 import { generateUpdateQuery } from '../helpers/dynamicPetsQuery.js';
@@ -9,6 +9,8 @@ export default {
     getAllPets,
     getPetById,
     getPetsByOwnerId,
+    getPetsByClientUsername,
+    getPetsByTerm,
     createPet,
     updatePet,
     deletePet
@@ -40,7 +42,7 @@ async function getPetById(req, res) {
     petValidations.petId(req.params.Id);
     const pet = await petsTable.getPetById(parseInt(req.params.Id));
 
-    res.status(200).json(pet);
+    res.status(200).send(pet.toJSON());
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] getPetById: ${error.message}`);
 
@@ -70,10 +72,52 @@ async function getPetsByOwnerId(req, res) {
     console.error(`[${new Date().toLocaleString()}] getPetsByOwnerId: ${error.message}`);
 
     if (error.code === 'doesnt-own-pets') {
+      return res.status(404).json(error.message);
+    }
+
+    res.status(500).json(error.message);
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+async function getPetsByClientUsername(req, res) {
+  try {
+    clientValidations.userName(req.params.username);
+    const pets = await petsTable.getPetsByClientUsername(req.params.username);
+
+    res.status(200).json(pets);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getPetsByClientUsername: ${error.message}`);
+
+    if (error.code === 'doesnt-own-pets') {
       return res.status(404).send(error.message);
     }
 
     res.status(500).send(error.message);
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+async function getPetsByTerm(req, res) {
+  try {
+    // ToDo: Validate search term
+    const pets = await petsTable.getPetsByTerm(req.params.searchTerm);
+
+    res.status(200).json(pets);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getPetsBySearchTerm: ${error.message}`);
+
+    if (error.code === 'pet-not-found') {
+      return res.status(404).json(`No pets with term "${req.params.searchTerm}".`);
+    }
+
+    res.status(500).send('Unable to fetch data from database.');
   }
 }
 

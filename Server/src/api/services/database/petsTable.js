@@ -71,6 +71,63 @@ function getPetsByOwner(ownerId) {
 }
 
 /**
+ * @param {String} username
+ * @return {Promise<Pet[]>}
+ */
+function getPetsByClientUsername(username) {
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT VetClinic.OurPets.PetId as PetId, VetClinic.OurPets.Name as Name 
+    FROM VetClinic.OurPets, VetClinic.OurClients
+    WHERE VetClinic.OurPets.Owner = VetClinic.OurClients.ClientId
+    AND VetClinic.OurClients.Username=N'${username}';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error('Client with username "' + username + '" doesn\'t have any pets.');
+          error.code = 'doesnt-own-pets';
+          reject(error);
+        }
+        const pets = [];
+        for (let i = 0; i < res.recordset.length; i++) {
+          const pet = { petId: res.recordset[i].PetId, name: res.recordset[i].Name };
+          pets.push(pet);
+        }
+        resolve(pets);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
+ * @return {Promise<Client>}
+ */
+function getPetsByTerm(searchTerm) {
+  searchTerm.replaceAll("'", "''");
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT OurClients.Username, OurClients.Firstname + ' ' + OurClients.Lastname as ClientName, OurClients.Address, OurClients.Phone, OurPets.PetId, OurPets.Type, OurPets.Breed, OurPets.Name, OurPets.Birthdate, OurPets.Sex, OurPets.Info
+    FROM VetClinic.OurPets, VetClinic.OurClients
+    WHERE VetClinic.OurPets.Owner = VetClinic.OurClients.ClientId
+    AND OurPets.Name LIKE N'%${searchTerm}%';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error(`No pets with term "${searchTerm}"`);
+          error.code = 'pet-not-found';
+          throw error;
+        }
+        const pets = [];
+        for (let i = 0; i < res.recordset.length; i++) {
+          const pet = { clientUsername: res.recordset[i].Username, clientName: res.recordset[i].ClientName, address: res.recordset[i].Address, phone: res.recordset[i].Phone, petId: res.recordset[i].PetId, type: res.recordset[i].Type, breed: res.recordset[i].Breed, name: res.recordset[i].Name, birthdate: res.recordset[i].Birthdate, sex: res.recordset[i].Sex, info: res.recordset[i].Info };
+          pets.push(pet);
+        }
+        resolve(pets);
+      }).catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
  * @param {Pet} pet
  * @return {Promise<Pet>}
  */
@@ -125,4 +182,4 @@ function deletePet(id) {
   });
 }
 
-export default { getAllPets, getPetById, getPetsByOwner, createPet, updatePet, deletePet };
+export default { getAllPets, getPetById, getPetsByOwner, getPetsByClientUsername, getPetsByTerm, createPet, updatePet, deletePet };

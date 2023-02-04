@@ -17,7 +17,7 @@ export default class Employee {
 
   toJSON = () => {
     const publicEmployee = {};
-    publicEmployee.clientId = this.#employeeId;
+    publicEmployee.employeeId = this.#employeeId;
     publicEmployee.username = this.#userName;
     publicEmployee.firstName = this.#firstName;
     publicEmployee.lastName = this.#lastName;

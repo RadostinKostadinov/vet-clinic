@@ -67,6 +67,33 @@ function getClientByUsername(username) {
 }
 
 /**
+ * @return {Promise<Client>}
+ */
+function getClientsByTerm(searchTerm) {
+  searchTerm.replaceAll("'", "''");
+  return new Promise((resolve, reject) => {
+    sql.query(`SELECT ClientId, Username, Firstname, Lastname, Phone, Address
+    FROM VetClinic.OurClients
+    WHERE ClientId LIKE '%${searchTerm}%' OR Username LIKE N'%${searchTerm}%' OR Firstname LIKE N'%${searchTerm}%' OR Lastname LIKE N'%${searchTerm}%' OR Phone LIKE '%${searchTerm}%';`)
+      .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error(`No clients with term "${searchTerm}"`);
+          error.code = 'user-not-found';
+          throw error;
+        }
+        const clients = [];
+        for (let i = 0; i < res.recordset.length; i++) {
+          const clientObj = { clientId: res.recordset[i].ClientId, username: res.recordset[i].Username, firstName: res.recordset[i].Firstname, lastName: res.recordset[i].Lastname, phone: res.recordset[i].Phone, address: res.recordset[i].Address };
+          clients.push(clientObj);
+        }
+        resolve(clients);
+      }).catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+/**
  * @param {Client} client
  * @return {Promise<Client>}
  */
@@ -123,4 +150,4 @@ function deleteClient(id) {
   });
 }
 
-export default { getClients, getClientById, getClientByUsername, createClient, updateClient, deleteClient };
+export default { getClients, getClientById, getClientByUsername, getClientsByTerm, createClient, updateClient, deleteClient };

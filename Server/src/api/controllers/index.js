@@ -1,3 +1,4 @@
+import authController from './authController.js';
 import petsController from './petsController.js';
 import clientsController from './clientsController.js';
 import employeesController from './employeesController.js';
@@ -7,5 +8,6 @@ export {
   petsController,
   clientsController,
   employeesController,
-  examinationsController
+  examinationsController,
+  authController
 };

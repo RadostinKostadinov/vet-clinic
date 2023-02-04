@@ -1,0 +1,32 @@
+.month-bar-wrapper {
+  height: 7vh;
+  width: 100%;
+  left: 5%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 1vh 0px;
+}
+
+.month-bar-wrapper > div {
+  position: relative;
+  height: 100%;
+}
+
+.month-bar-wrapper .bigbuttons {
+  display: block;
+  height: 100%;
+  min-width: 150px;
+
+  cursor: pointer;
+
+  font-family: "Montserrat-Bold";
+  font-size: 18px;
+  color: var(--month-days-color);
+}
+
+.month-bar-wrapper .months-wrapper {
+  display: flex;
+}

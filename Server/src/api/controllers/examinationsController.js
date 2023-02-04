@@ -10,7 +10,9 @@ export default {
     getPetExaminations,
     createExamination,
     updateExamination,
-    deleteExamination
+    deleteExamination,
+    getExaminationsByDate,
+    getExaminationsInfoByDate
   }
 };
 
@@ -39,7 +41,7 @@ async function getExaminationById(req, res) {
     examinationValidations.examinationId(req.params.Id);
     const examination = await examinationsTable.getExaminationById(parseInt(req.params.Id));
 
-    res.status(200).json(examination);
+    res.status(200).send(examination.toJSON());
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] getExaminationById: ${error.message}`);
 
@@ -49,6 +51,50 @@ async function getExaminationById(req, res) {
 
     if (error.code === 'examination-not-found') {
       return res.status(404).send(error.message);
+    }
+
+    res.status(500).send('Unable to fetch data from database.');
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+async function getExaminationsByDate(req, res) {
+  try {
+    examinationValidations.examinationDate(req.query.from);
+    examinationValidations.examinationDate(req.query.to);
+    const examinations = await examinationsTable.getExaminationsByDate(req.query.from, req.query.to);
+
+    res.status(200).json(examinations);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getExaminationsByDate: ${error.message}`);
+
+    if (error.code === 'examinations-not-found') {
+      return res.status(200).json([]);
+    }
+
+    res.status(500).send('Unable to fetch data from database.');
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
+async function getExaminationsInfoByDate(req, res) {
+  try {
+    examinationValidations.examinationDate(req.query.from);
+    examinationValidations.examinationDate(req.query.to);
+    const examinations = await examinationsTable.getExaminationsInfoByDate(req.query.from, req.query.to);
+
+    res.status(200).json(examinations);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getExaminationsInfoByDate: ${error.message}`);
+
+    if (error.code === 'examinations-not-found') {
+      return res.status(200).json([]);
     }
 
     res.status(500).send('Unable to fetch data from database.');

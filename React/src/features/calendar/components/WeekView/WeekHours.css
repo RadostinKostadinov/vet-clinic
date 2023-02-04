@@ -1,0 +1,24 @@
+.week-hours {
+  flex: none;
+  height: 2880px;
+  width: 5%;
+}
+
+.week-hour {
+  position: relative;
+  height: 20px;
+  text-align: center;
+}
+
+.week-day-col-hours-divider {
+  position: absolute;
+  height: 120px;
+  background-color: transparent;
+  width: 100%;
+  border-top: 1px dashed gray;
+  border-bottom: 1px dashed gray;
+}
+
+.week-day-col:not(.pastday) .week-day-col-hours-divider:hover {
+  background-color: rgba(148, 255, 77, 0.25);
+}

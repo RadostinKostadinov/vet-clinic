@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/getAll', db.getAllEmployees);
 router.get('/getById/:Id', db.getEmployeeById);
+router.get('/getByUsername/:Username', db.getEmployeeByUsername);
 router.post('/create', db.createEmployee);
 router.post('/update', db.updateEmployee);
 router.delete('/delete/:Id', db.deleteEmployee);

@@ -1,0 +1,60 @@
+.header-employee {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.side-element {
+  height: 80%;
+  width: 150px;
+  align-self: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-element > p {
+  text-align: center;
+  font-size: 14px;
+  font-family: "Montserrat-Regular";
+  color: var(--month-days-color);
+}
+
+.side-element > button {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat-Regular";
+  color: var(--month-days-color);
+  cursor: pointer;
+}
+
+.center-elements {
+  display: flex;
+}
+
+.header-button {
+  display: block;
+  height: 100%;
+  align-self: center;
+}
+
+.center-elements > .header-button {
+  display: table;
+  margin: 0px 10px;
+  width: 100px;
+}
+
+.center-elements > .header-button > a {
+  display: table-cell;
+  vertical-align: middle;
+
+  text-decoration: none;
+  text-align: center;
+  font-family: "Montserrat-Bold";
+  color: var(--month-days-color);
+}

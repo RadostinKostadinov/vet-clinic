@@ -1,0 +1,14 @@
+.findpet-wrapper {
+  position: relative;
+  width: 90%;
+  left: 5%;
+}
+
+.findpet-content {
+  display: block;
+  position: relative;
+  height: 66vh;
+  width: 100%;
+  
+  overflow: auto;
+}

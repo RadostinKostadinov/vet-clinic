@@ -1,0 +1,15 @@
+.week-examination {
+  position: absolute;
+  z-index: 9999;
+
+  height: 120px;
+  width: 100%;
+
+  border-top: 1px solid rgb(0, 0, 0);
+  border-bottom: 1px solid rgb(0, 0, 0);
+  background-color: var(--week-examinations-color);
+}
+
+.week-examination:hover {
+  background-color: #b300007d;
+}

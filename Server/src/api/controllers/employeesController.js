@@ -7,6 +7,7 @@ export default {
   databaseQueries: {
     getAllEmployees,
     getEmployeeById,
+    getEmployeeByUsername,
     createEmployee,
     updateEmployee,
     deleteEmployee
@@ -57,6 +58,30 @@ async function getEmployeeById(req, res) {
  * @param {Request} req
  * @param {Response} res
  */
+async function getEmployeeByUsername(req, res) {
+  try {
+    employeeValidations.userName(req.params.Username);
+    const client = await employeesTable.getEmployeeByUsername(req.params.Username);
+
+    res.status(200).json(client);
+  } catch (error) {
+    console.error(`[${new Date().toLocaleString()}] getClientByUsername: ${error.message}`);
+    if (error.code === 'username-too-short' || error.code === 'username-too-long' || error.code === 'username-empty') {
+      return res.status(404).send('Username length must be between 4 and 15 characters.');
+    }
+
+    if (error.code === 'user-not-found') {
+      return res.status(404).send(`No employee with username "${req.params.Username}".`);
+    }
+
+    res.status(500).send('Unable to fetch data from database.');
+  }
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 async function createEmployee(req, res) {
   try {
     employeeValidations.validateEmployee(req.body);
@@ -66,7 +91,7 @@ async function createEmployee(req, res) {
     res.status(200).json(employee);
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] createEmployee: ${error.message}`);
-    // SQL SERVER ERROR 2627 (Unique Key Violation)
+    // SQL SERVER ERROR 2601 (Unique Key Violation)
     if (error.number === 2627) {
       return res.status(400).send('Username is already in use.');
     }
@@ -83,7 +108,6 @@ async function updateEmployee(req, res) {
   try {
     employeeValidations.validateEmployee(req.body);
     const queryString = await generateUpdateQuery(req.body);
-    console.log(queryString);
     const employee = await employeesTable.updateEmployee(queryString);
 
     res.status(200).json(employee);

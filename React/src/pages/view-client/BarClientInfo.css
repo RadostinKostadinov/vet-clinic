@@ -1,0 +1,90 @@
+.viewclient-clientinfo {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  margin: 20px 0px;
+}
+
+.viewclient-primary-info,
+.viewclient-owner-info {
+  min-height: 50px;
+  height: 7vh;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewclient-secondary-info {
+  min-height: 100px;
+  height: 16vh;
+}
+
+.viewclient-clientinfo-cell {
+  flex: 1;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding-left: 8px;
+  border: 1px solid var(--glass-border);
+
+  cursor: default;
+}
+
+.viewclient-clientinfo-cell:nth-of-type(1) {
+  border-radius: 16px 0px 0px 16px;
+}
+
+.viewclient-clientinfo-cell:nth-last-of-type(1) {
+  border-radius: 0px 16px 16px 0px;
+}
+
+.viewclient-clientinfo-cell > p,
+.viewclient-secondary-info > div > p {
+  padding: 8px;
+
+  font-family: "Montserrat-Bold";
+  color: var(--headings);
+
+  font-size: 16px;
+}
+
+.clientinfo-textarea {
+  resize: none;
+  min-height: 80px;
+  height: 12vh;
+  font-family: "Montserrat-Bold";
+  color: var(--headings);
+
+  font-size: 16px;
+  padding: 8px;
+}
+
+.create-new-pet {
+  width: 200px;
+  height: 100%;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 10px 0px;
+
+  box-shadow: inset 0 0 5px grey;
+  border: transparent;
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  font-family: "Montserrat-Bold";
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  text-shadow: -1px -1px 0 rgb(122, 122, 122), 1px -1px 0 rgb(122, 122, 122),
+    -1px 1px 0 rgb(122, 122, 122), 1px 1px 0 rgb(122, 122, 122);
+}
