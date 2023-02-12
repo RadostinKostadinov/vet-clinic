@@ -2,6 +2,7 @@ import examinationsTable from '../services/database/examinationsTable.js';
 import { examinationValidations } from '../validations/index.js';
 import { Examination } from '../models/index.js';
 import { generateUpdateQuery } from '../helpers/dynamicExaminationsQuery.js';
+import generateResponseObject from '../helpers/generateResponseObject.js';
 
 export default {
   databaseQueries: {
@@ -174,9 +175,22 @@ async function deleteExamination(req, res) {
     examinationValidations.examinationId(req.params.Id);
     const dbResponse = await examinationsTable.deleteExamination(parseInt(req.params.Id));
 
-    res.status(200).json(dbResponse);
+    if (dbResponse.rowsAffected[0] === 1) {
+      const response = generateResponseObject('success', `Examination with ID ${req.params.Id} is deleted.`, []);
+      return res.status(200).json(response);
+    }
+
+    if (dbResponse.rowsAffected[0] === 0) {
+      const response = generateResponseObject('fail', `Examination with ID ${req.params.Id} not found.`, []);
+      return res.status(404).json(response);
+    }
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] deleteExamination: ${error.message}`);
+
+    if (error.code === 'id-mustbe-number') {
+      const response = generateResponseObject('fail', error.message, []);
+      return res.status(400).json(response);
+    }
 
     res.status(500).send('Unable to fetch data from database.');
   }

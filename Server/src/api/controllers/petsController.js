@@ -3,6 +3,7 @@ import petsTable from '../services/database/petsTable.js';
 import { Pet } from '../models/index.js';
 import { generateUpdateQuery } from '../helpers/dynamicPetsQuery.js';
 import clientsTable from '../services/database/clientsTable.js';
+import generateResponseObject from '../helpers/generateResponseObject.js';
 
 export default {
   databaseQueries: {
@@ -171,9 +172,22 @@ async function deletePet(req, res) {
     petValidations.petId(req.params.Id);
     const dbResponse = await petsTable.deletePet(parseInt(req.params.Id));
 
-    res.status(200).json(dbResponse);
+    if (dbResponse.rowsAffected[0] === 1) {
+      const response = generateResponseObject('success', `Pet with ID ${req.params.Id} is deleted.`, []);
+      return res.status(200).json(response);
+    }
+
+    if (dbResponse.rowsAffected[0] === 0) {
+      const response = generateResponseObject('fail', `Pet with ID ${req.params.Id} not found.`, []);
+      return res.status(404).json(response);
+    }
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] deletePet: ${error.message}`);
+
+    if (error.code === 'id-mustbe-number') {
+      const response = generateResponseObject('fail', error.message, []);
+      return res.status(400).json(response);
+    }
 
     res.status(500).send(error.message);
   }

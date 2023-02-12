@@ -2,6 +2,7 @@ import { Employee } from '../models/index.js';
 import employeesTable from '../services/database/employeesTable.js';
 import { employeeValidations } from '../validations/index.js';
 import { generateUpdateQuery } from '../helpers/dynamicEmployeesQuery.js';
+import generateResponseObject from '../helpers/generateResponseObject.js';
 
 export default {
   databaseQueries: {
@@ -127,9 +128,22 @@ async function deleteEmployee(req, res) {
     employeeValidations.employeeId(req.params.Id);
     const dbResponse = await employeesTable.deleteEmployeeById(parseInt(req.params.Id));
 
-    res.status(200).json(dbResponse);
+    if (dbResponse.rowsAffected[0] === 1) {
+      const response = generateResponseObject('success', `Employee with ID ${req.params.Id} is deleted.`, []);
+      return res.status(200).json(response);
+    }
+
+    if (dbResponse.rowsAffected[0] === 0) {
+      const response = generateResponseObject('fail', `Employee with ID ${req.params.Id} not found.`, []);
+      return res.status(404).json(response);
+    }
   } catch (error) {
     console.error(`[${new Date().toLocaleString()}] deleteEmployee: ${error.message}`);
+
+    if (error.code === 'id-mustbe-number') {
+      const response = generateResponseObject('fail', error.message, []);
+      return res.status(400).json(response);
+    }
 
     res.status(500).send('Unable to fetch data from database.');
   }
