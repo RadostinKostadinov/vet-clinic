@@ -31,7 +31,7 @@ function getClientById(id) {
     sql.query(`SELECT * from VetClinic.OurClients WHERE ClientID=${id};`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
-          const error = new Error(`No client with ID "${id}"`);
+          const error = new Error(`No client with ID ${id}`);
           error.code = 'client-not-found';
           throw error;
         }
@@ -53,7 +53,7 @@ function getClientByUsername(username) {
     sql.query(`SELECT * from VetClinic.OurClients WHERE Username=N'${username}';`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
-          const error = new Error(`No client with username "${username}"`);
+          const error = new Error(`No client with username ${username}`);
           error.code = 'user-not-found';
           throw error;
         }
@@ -77,7 +77,7 @@ function getClientsByTerm(searchTerm) {
     WHERE ClientId LIKE '%${searchTerm}%' OR Username LIKE N'%${searchTerm}%' OR Firstname LIKE N'%${searchTerm}%' OR Lastname LIKE N'%${searchTerm}%' OR Phone LIKE '%${searchTerm}%';`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
-          const error = new Error(`No clients with term "${searchTerm}"`);
+          const error = new Error(`No clients with term ${searchTerm}`);
           error.code = 'user-not-found';
           throw error;
         }
@@ -126,6 +126,11 @@ function updateClient(queryString) {
   return new Promise((resolve, reject) => {
     sql.query(queryString)
       .then((res) => {
+        if (res.rowsAffected[0] === 0) {
+          const error = new Error('No client found.');
+          error.code = 'client-not-found';
+          throw error;
+        }
         const clientObj = new Client(res.recordset[0].ClientID, res.recordset[0].Username, 'hashedpassword', res.recordset[0].Firstname, res.recordset[0].Lastname, res.recordset[0].Phone, res.recordset[0].Address);
         clientObj.hashedPassword = res.recordset[0].Password;
         resolve(clientObj);

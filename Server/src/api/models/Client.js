@@ -28,7 +28,7 @@ export default class Client {
     publicClient.phone = this.#phone;
     publicClient.address = this.#address;
 
-    return JSON.stringify(publicClient);
+    return publicClient;
   };
 
   get clientId() {
