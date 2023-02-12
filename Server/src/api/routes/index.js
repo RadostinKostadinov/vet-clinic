@@ -11,7 +11,6 @@ import { verifyJWT } from '../middleware/verifyJWT.js';
 const router = express.Router();
 
 // No authentication needed for this routes
-router.get('/testapi', (req, res) => res.status(200).send('VET CLINIC API - working.'));
 router.use('/auth', authRouter);
 
 // router.use(verifyJWT);
@@ -21,6 +20,8 @@ router.use('/pets', petsRouter);
 router.use('/examinations', examinationsRouter);
 router.use('/employees', employeesRouters);
 router.use('/clients', clientsRouter);
+
+router.use('*', (req, res) => res.status(200).send('VET CLINIC API - working.'));
 
 const AppRouter = router;
 export default AppRouter;
