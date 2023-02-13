@@ -31,7 +31,7 @@ function getEmployeeById(id) {
     sql.query(`SELECT * from VetClinic.OurEmployees WHERE EmployeeID=${id};`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
-          const error = new Error(`No employee with ID "${id}"`);
+          const error = new Error(`No employee with ID ${id}`);
           error.code = 'employee-not-found';
           throw error;
         }
@@ -50,10 +50,10 @@ function getEmployeeById(id) {
  */
 function getEmployeeByUsername(username) {
   return new Promise((resolve, reject) => {
-    sql.query(`SELECT * from VetClinic.OurEmployees WHERE Username='${username}';`)
+    sql.query(`SELECT * from VetClinic.OurEmployees WHERE Username=N'${username}';`)
       .then((res) => {
         if (res.rowsAffected[0] === 0) {
-          const error = new Error(`No employee with username "${username}"`);
+          const error = new Error(`No employee with username ${username}`);
           error.code = 'user-not-found';
           reject(error);
         }

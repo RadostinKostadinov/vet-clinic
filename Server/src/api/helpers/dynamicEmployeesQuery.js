@@ -12,7 +12,7 @@ export async function generateUpdateQuery(reqBody) {
   const table = 'VetClinic.OurEmployees';
 
   return `UPDATE ${table} SET ${updateString} OUTPUT INSERTED.Username, INSERTED.Firstname, INSERTED.Lastname, INSERTED.Password, INSERTED.EmployeeId WHERE EmployeeId=${reqBody.employeeId};`;
-};
+}
 
 async function extractUpdateString(reqBody) {
   const queryParts = [];
@@ -23,7 +23,9 @@ async function extractUpdateString(reqBody) {
 
   return new Promise((resolve, reject) => {
     if (typeof reqBody.firstName !== 'undefined') {
-      queryParts.push(`Firstname='${reqBody.firstName.replaceAll("'", "''")}'`);
+      queryParts.push(
+        `Firstname='${reqBody.firstName.toString().replaceAll("'", "''")}'`
+      );
     }
     if (typeof reqBody.lastName !== 'undefined') {
       queryParts.push(`Lastname='${reqBody.lastName.replaceAll("'", "''")}'`);
