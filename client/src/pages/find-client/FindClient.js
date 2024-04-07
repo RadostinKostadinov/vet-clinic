@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 // App modules
 import AddClientPopup from "./AddClientPopup";
-import { getClientsByTerm } from "../../services/clientsAPI";
+import { getClientsByTerm, getAllClients } from "../../services/clientsAPI";
 import FindClientTableRow from "./FindClientTableRow";
 import FindClientTopBar from "./FindClientTopBar";
 
@@ -11,34 +11,20 @@ import "./FindClient.css";
 export default function FindClient() {
   const [clientSearchTerm, setClientSearchTerm] = useState("");
   const [clientsFound, setClientsFound] = useState([]);
-  const [isClientFound, setIsClientFound] = useState(true);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isAllFetched, setIsAllFetched] = useState(false);
 
   useEffect(() => {
     document.title = "Find Client";
+    loadAllClients();
   }, []);
 
   useEffect(() => {
-    if (clientSearchTerm.length === 3 && !isAllFetched) {
-      getClients();
-    }
-  }, [clientSearchTerm]);
-
-  useEffect(() => {
-    if (!isPopupVisible && !isAllFetched) {
-      getClients();
-    }
+    loadAllClients();
   }, [isPopupVisible]);
 
-  const getClients = async () => {
-    let clients = await getClientsByTerm(clientSearchTerm);
-    if (Array.isArray(clients) === false) {
-      clients = [];
-      setIsClientFound(false);
-    } else {
-      setIsClientFound(true);
-    }
+  const loadAllClients = async () => {
+    let { data: clients } = await getAllClients();
     setClientsFound(clients);
   };
 

@@ -30,6 +30,7 @@ connectToDB(3)
     app.listen(PORT, () => {
       console.log('SUCCESS: VET CLINIC API - started.');
     });
-  }).catch((error) => {
+  })
+  .catch((error) => {
     return error;
   });

@@ -63,13 +63,14 @@ export default function AddClientPopup({ setIsPopupVisible }) {
         setIsUsernameTaken(false);
 
         const response = await createClient(values);
-        if (response === "Username is already in use.") {
-          setIsUsernameTaken(true);
-        } else if (response.includes("clientId") === false) {
-          alert("Проблем със сървъра, моля свържете се с администратор.");
-        } else if (response.toString().includes("clientId")) {
+        console.log(response);
+        if (response.status === "success") {
           alert("Успешно добавихте нов клиент.");
           setIsPopupVisible(false);
+        } else if (response.message === "Username is already in use.") {
+          setIsUsernameTaken(true);
+        } else {
+          alert("Проблем със сървъра, моля свържете се с администратор.");
         }
       };
       addClient();

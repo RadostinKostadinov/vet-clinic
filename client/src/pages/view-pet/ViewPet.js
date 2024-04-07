@@ -10,16 +10,11 @@ import ViewPetTableRow from "./ViewPetTableRow";
 import "./ViewPet.css";
 export default function ViewPet() {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [petExaminations, setPetExaminations] = useState([]);
 
   useEffect(() => {
     document.title = "View Pet";
-
-    if (location.state === null) {
-      navigate("/");
-    }
 
     const getExaminations = async () => {
       let examinations = await getExaminationsByPetId(location.state.petId);
@@ -29,7 +24,11 @@ export default function ViewPet() {
       setPetExaminations(examinations);
     };
     getExaminations();
-  }, []);
+  }, [location.state.petId]);
+
+  if (location.state === null) {
+    window.location = "/";
+  }
 
   return (
     <div className="viewpet-wrapper">

@@ -8,7 +8,11 @@ const DatabaseConfig = {
   password: process.env.DB_PASSWORD,
   port: Number(process.env.DB_PORT),
   options: {
-    encrypt: true
+    encrypt: true,
+    trustServerCertificate: true,
+    trustedConnection: false,
+    enableArithAbort: true,
+    instancename: 'radostink'
   }
 };
 

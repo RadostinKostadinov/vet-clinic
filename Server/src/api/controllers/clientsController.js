@@ -21,11 +21,16 @@ export default {
  * @param {Response} res
  */
 async function getAllClients(req, res) {
+  console.log(req);
   try {
     const clientsList = await clientsTable.getClients();
 
     if (clientsList.length > 0) {
-      const response = generateResponseObject('success', `Number of clients : ${clientsList.length}`, clientsList);
+      const response = generateResponseObject(
+        'success',
+        `Number of clients : ${clientsList.length}`,
+        clientsList
+      );
       return res.status(200).json(response);
     }
 
@@ -34,7 +39,9 @@ async function getAllClients(req, res) {
       return res.status(404).json(response);
     }
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] getAllClients: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] getAllClients: ${error.message}`
+    );
 
     return res.status(500).send('Unable to fetch data from database.');
   }
@@ -50,10 +57,14 @@ async function getClientById(req, res) {
     const clientId = parseInt(req.params.id);
     const client = await clientsTable.getClientById(clientId);
 
-    const response = generateResponseObject('success', 'Client found.', [client]);
+    const response = generateResponseObject('success', 'Client found.', [
+      client
+    ]);
     return res.status(200).json(response);
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] getClientById: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] getClientById: ${error.message}`
+    );
 
     if (error.code === 'id-mustbe-number') {
       const response = generateResponseObject('fail', error.message, []);
@@ -78,12 +89,20 @@ async function getClientByUsername(req, res) {
     clientValidations.userName(req.params.username);
     const client = await clientsTable.getClientByUsername(req.params.username);
 
-    const response = generateResponseObject('success', 'Client found.', [client]);
+    const response = generateResponseObject('success', 'Client found.', [
+      client
+    ]);
     return res.status(200).json(response);
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] getClientByUsername: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] getClientByUsername: ${error.message}`
+    );
 
-    if (error.code === 'username-too-short' || error.code === 'username-too-long' || error.code === 'username-empty') {
+    if (
+      error.code === 'username-too-short' ||
+      error.code === 'username-too-long' ||
+      error.code === 'username-empty'
+    ) {
       const response = generateResponseObject('fail', error.message, []);
       return res.status(400).json(response);
     }
@@ -104,13 +123,26 @@ async function getClientByUsername(req, res) {
 async function getClientsByTerm(req, res) {
   try {
     // ToDo: Validate search term
+    console.log('here');
+    console.log(req);
     clientValidations.firstName(req.params.searchTerm);
-    const clientsList = await clientsTable.getClientsByTerm(req.params.searchTerm);
+    const clientsList = await clientsTable.getClientsByTerm(
+      req.params.searchTerm
+    );
 
-    const response = generateResponseObject('success', `Number of clients : ${clientsList.length}`, clientsList);
+    console.log(clientsList);
+    const response = generateResponseObject(
+      'success',
+      `Number of clients : ${clientsList.length}`,
+      clientsList
+    );
     return res.status(200).json(response);
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] getClientsBySearchTerm: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] getClientsBySearchTerm: ${
+        error.message
+      }`
+    );
 
     if (error.code === 'user-not-found') {
       const response = generateResponseObject('fail', error.message, []);
@@ -129,17 +161,33 @@ async function getClientsByTerm(req, res) {
  */
 async function createClient(req, res) {
   try {
-    const newClient = new Client(0, req.body.username, req.body.password, req.body.firstName, req.body.lastName, req.body.phone, req.body.address);
+    const newClient = new Client(
+      0,
+      req.body.username,
+      req.body.password,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.phone,
+      req.body.address
+    );
     const client = await clientsTable.createClient(newClient);
 
-    const response = generateResponseObject('success', 'Client created.', [client]);
+    const response = generateResponseObject('success', 'Client created.', [
+      client
+    ]);
     return res.status(200).json(response);
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] createClient: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] createClient: ${error.message}`
+    );
 
     // SQL SERVER ERROR 2627 (Unique Key Violation)
     if (error.number === 2627) {
-      const response = generateResponseObject('fail', 'Username is already in use.', []);
+      const response = generateResponseObject(
+        'fail',
+        'Username is already in use.',
+        []
+      );
       return res.status(409).json(response);
     }
 
@@ -157,10 +205,14 @@ async function updateClient(req, res) {
     const queryString = await generateUpdateQuery(req.body);
     const client = await clientsTable.updateClient(queryString);
 
-    const response = generateResponseObject('success', 'Client updated', [client]);
+    const response = generateResponseObject('success', 'Client updated', [
+      client
+    ]);
     return res.status(200).json(response);
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] updateClient: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] updateClient: ${error.message}`
+    );
 
     if (error.code === 'client-not-found') {
       const response = generateResponseObject('fail', error.message, []);
@@ -183,16 +235,26 @@ async function deleteClient(req, res) {
     const dbResponse = await clientsTable.deleteClient(parseInt(req.params.Id));
 
     if (dbResponse.rowsAffected[0] === 1) {
-      const response = generateResponseObject('success', `Client with ID ${req.params.Id} is deleted.`, []);
+      const response = generateResponseObject(
+        'success',
+        `Client with ID ${req.params.Id} is deleted.`,
+        []
+      );
       return res.status(200).json(response);
     }
 
     if (dbResponse.rowsAffected[0] === 0) {
-      const response = generateResponseObject('fail', `Client with ID ${req.params.Id} not found.`, []);
+      const response = generateResponseObject(
+        'fail',
+        `Client with ID ${req.params.Id} not found.`,
+        []
+      );
       return res.status(404).json(response);
     }
   } catch (error) {
-    console.error(`[${new Date().toLocaleString()}] deleteEmployee: ${error.message}`);
+    console.error(
+      `[${new Date().toLocaleString()}] deleteEmployee: ${error.message}`
+    );
 
     if (error.code === 'id-mustbe-number') {
       const response = generateResponseObject('fail', error.message, []);

@@ -173,7 +173,9 @@ export default function AddExaminationPopup({ popupHour }) {
                 onChange={async (e) => {
                   formik.handleChange(e);
                   if (e.target.value.length === 3) {
-                    let clients = await getClientsByTerm(e.target.value);
+                    let { data: clients } = await getClientsByTerm(
+                      e.target.value
+                    );
                     if (Array.isArray(clients) === false) clients = [];
                     setClientsFound(clients);
                   }
@@ -189,8 +191,27 @@ export default function AddExaminationPopup({ popupHour }) {
               ></input>
               <div className="client-name-suggestions">
                 {focused === "clientName" &&
-                  clientsFound.length > 0 &&
                   formik.values.clientName.length >= 3 &&
+                  clientsFound.filter((client) => {
+                    const searchTerm = formik.values.clientName.toLowerCase();
+                    const username = client.username.toLowerCase();
+
+                    const fullname =
+                      client.firstName.toLowerCase() +
+                      " " +
+                      client.lastName.toLowerCase();
+                    const clientId = client.clientId.toString();
+
+                    return (
+                      searchTerm &&
+                      (fullname.includes(searchTerm) ||
+                        username.includes(searchTerm) ||
+                        clientId.includes(searchTerm))
+                    );
+                  }).length === 0 && <div>{`Няма намерени резултати`}</div>}
+                {focused === "clientName" &&
+                  formik.values.clientName.length >= 3 &&
+                  clientsFound.length > 0 &&
                   clientsFound
                     .filter((client) => {
                       const searchTerm = formik.values.clientName.toLowerCase();

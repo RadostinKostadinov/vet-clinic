@@ -3,7 +3,8 @@ import { DatabaseConfig } from '../../config/index.js';
 
 function connect() {
   return new Promise((resolve, reject) => {
-    sql.connect(DatabaseConfig)
+    sql
+      .connect(DatabaseConfig)
       .then((pool) => {
         resolve(pool);
       })
@@ -30,10 +31,12 @@ export function connectToDB(maxAttempts, attempt = 0) {
         if (attempt >= maxAttempts) {
           reject(err);
         }
-        console.error('Can\'t connect to DB...');
+        console.error("Can't connect to DB...");
         console.error(err.message);
         console.error(`Retrying...(${attempt})`);
-        setTimeout(() => { connectToDB(maxAttempts, attempt + 1); }, 2000);
+        setTimeout(() => {
+          connectToDB(maxAttempts, attempt + 1);
+        }, 2000);
       });
   });
-};
+}

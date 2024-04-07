@@ -29,11 +29,16 @@ export default function ShowExaminationInfo({ exam, setIsExaminationOpened }) {
       examination = await getExaminationById(exam.examinationId);
       pet = await getPetById(examination.petId);
       clientInfo = await getClientById(pet.ownerId);
+      console.log(examination, pet, clientInfo);
       const petInfo = Object.assign(
-        { clientName: clientInfo.firstName + " " + clientInfo.lastName },
+        {
+          clientName:
+            clientInfo.data[0].firstName + " " + clientInfo.data[0].lastName,
+        },
         pet,
-        clientInfo
+        clientInfo.data[0]
       );
+      console.log(petInfo);
       navigate("/examination", {
         state: {
           petInfo,

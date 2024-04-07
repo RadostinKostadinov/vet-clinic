@@ -1,3 +1,13 @@
+export function getAllPets() {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:5000/pets/getAll`)
+      .then((res) => res.json())
+      .then((dbResponse) => {
+        resolve(dbResponse);
+      });
+  });
+}
+
 export function getPetsByClientId(clientId) {
   return new Promise((resolve, reject) => {
     fetch(`http://localhost:5000/pets/getByClientId/${clientId}`)

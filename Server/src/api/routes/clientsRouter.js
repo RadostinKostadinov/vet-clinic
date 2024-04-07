@@ -1,6 +1,5 @@
 import express from 'express';
 import { clientsController } from '../controllers/index.js';
-import { isEmployee } from '../middleware/isEmployee.js';
 
 const db = clientsController.databaseQueries;
 const router = express.Router();

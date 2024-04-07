@@ -12,10 +12,7 @@ export default function FindClientTopBar({
   setIsAllFetched,
 }) {
   const handleClickAllClients = async () => {
-    let allClients = await getAllClients();
-    allClients = allClients.map((client) => {
-      return JSON.parse(client);
-    });
+    let { data: allClients } = await getAllClients();
     setIsAllFetched(true);
     setClientSearchTerm("");
     setClientsFound(allClients);
