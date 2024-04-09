@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // App modules
-import { getPetsByClientId } from "../../services/petsAPI";
+import { getPetsByClientId } from "../../services/fetchVetClinicAPI/petsAPI";
 import BarClientInfo from "./BarClientInfo";
 import ViewClientTableRow from "./ViewClientTableRow";
 

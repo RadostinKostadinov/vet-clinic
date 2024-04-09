@@ -1,0 +1,115 @@
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat-Regular";
+}
+
+.login-wrapper form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  row-gap: 20px;
+}
+
+.login-wrapper form label {
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper form input {
+  font-size: 32px;
+  border: none;
+  padding: 5px;
+}
+
+.login-wrapper form input:focus {
+  outline: none;
+  border: none;
+}
+
+.login-wrapper form input[type="submit"] {
+  cursor: pointer;
+}
+
+.login-form-message {
+  color: red;
+  font-weight: bold;
+  align-self: center;
+}
+
+.role-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.role-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.role-toggle-switch {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.role-toggle-switch:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .role-toggle-switch {
+  background-color: #21f379;
+}
+
+input:checked + .role-toggle-switch:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+input:focus + .role-toggle-switch {
+  box-shadow: 0 0 1px #21f379;
+}
+
+.role-toggle-switch {
+  border-radius: 34px;
+}
+
+.role-toggle-switch:before {
+  border-radius: 50%;
+}
+
+.login-radio-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 10px;
+}
+
+.login-form-submit-label {
+  align-self: center;
+}

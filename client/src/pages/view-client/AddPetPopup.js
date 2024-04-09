@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // App modules
-import { createPet } from "../../services/petsAPI";
+import { createPet } from "../../services/fetchVetClinicAPI/petsAPI";
 
 import "./AddPetPopup.css";
 export default function AddPetPopup({ setIsPopupVisible, clientInfo }) {

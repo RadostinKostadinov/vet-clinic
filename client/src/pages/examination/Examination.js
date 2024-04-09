@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 
 // App modules
 import BarPetInfo from "../view-pet/BarPetInfo";
-import { getEmployeeById } from "../../services/employeesAPI";
-import { updateExamination } from "../../services/examinationsAPI";
+import { getEmployeeById } from "../../services/fetchVetClinicAPI/employeesAPI";
+import { updateExamination } from "../../services/fetchVetClinicAPI/examinationsAPI";
 
 import "./Examination.css";
 export default function Examination() {

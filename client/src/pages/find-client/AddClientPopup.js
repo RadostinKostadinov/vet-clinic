@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 
 // App modules
-import { createClient } from "../../services/clientsAPI";
+import { createClient } from "../../services/fetchVetClinicAPI/clientsAPI";
 
 import "./AddClientPopup.css";
 export default function AddClientPopup({ setIsPopupVisible }) {
@@ -63,7 +63,6 @@ export default function AddClientPopup({ setIsPopupVisible }) {
         setIsUsernameTaken(false);
 
         const response = await createClient(values);
-        console.log(response);
         if (response.status === "success") {
           alert("Успешно добавихте нов клиент.");
           setIsPopupVisible(false);

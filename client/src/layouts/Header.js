@@ -1,5 +1,5 @@
 // Libraries
-import { useContext} from "react";
+import { useContext } from "react";
 
 // App modules
 import { GlobalContext } from "../context/GlobalContext";
@@ -13,8 +13,16 @@ export default function Header() {
   return (
     <>
       <div className="header-wrapper">
-        {user.role === "employee" ? <HeaderEmployee /> : ""}
-        {user.role === "client" ? <HeaderClient /> : ""}
+        {user.role === "employee" ? (
+          <HeaderEmployee firstName={user.firstName} lastName={user.lastName} />
+        ) : (
+          ""
+        )}
+        {user.role === "client" ? (
+          <HeaderClient firstName={user.firstName} lastName={user.lastName} />
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

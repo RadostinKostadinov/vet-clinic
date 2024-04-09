@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 // App modules
-import { getPetsByTerm, getAllPets } from "../../services/petsAPI";
+import { getAllPets } from "../../services/fetchVetClinicAPI/petsAPI";
 import FindPetTopBar from "./FindPetTopBar";
 import FindPetTableRow from "./FindPetTableRow";
 

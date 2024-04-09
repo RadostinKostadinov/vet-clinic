@@ -1,7 +1,7 @@
 // Libraries
 
 // App modules
-import { getAllClients } from "../../services/clientsAPI";
+import { getAllClients } from "../../services/fetchVetClinicAPI/clientsAPI";
 
 import "./FindClientTopBar.css";
 export default function FindClientTopBar({

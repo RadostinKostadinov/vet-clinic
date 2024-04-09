@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 
 // App modules
 import AddClientPopup from "./AddClientPopup";
-import { getClientsByTerm, getAllClients } from "../../services/clientsAPI";
+import {
+  getClientsByTerm,
+  getAllClients,
+} from "../../services/fetchVetClinicAPI/clientsAPI";
 import FindClientTableRow from "./FindClientTableRow";
 import FindClientTopBar from "./FindClientTopBar";
 

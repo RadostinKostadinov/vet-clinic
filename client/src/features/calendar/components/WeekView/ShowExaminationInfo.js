@@ -3,12 +3,12 @@ import { useState } from "react";
 import dayjs from "dayjs";
 
 // App modules
-import { getClientById } from "../../../../services/clientsAPI";
+import { getClientById } from "../../../../services/fetchVetClinicAPI/clientsAPI";
 import {
   deleteExamination,
   getExaminationById,
-} from "../../../../services/examinationsAPI";
-import { getPetById } from "../../../../services/petsAPI";
+} from "../../../../services/fetchVetClinicAPI/examinationsAPI";
+import { getPetById } from "../../../../services/fetchVetClinicAPI/petsAPI";
 
 import "./ShowExaminationInfo.css";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,6 @@ export default function ShowExaminationInfo({ exam, setIsExaminationOpened }) {
       examination = await getExaminationById(exam.examinationId);
       pet = await getPetById(examination.petId);
       clientInfo = await getClientById(pet.ownerId);
-      console.log(examination, pet, clientInfo);
       const petInfo = Object.assign(
         {
           clientName:
@@ -38,7 +37,6 @@ export default function ShowExaminationInfo({ exam, setIsExaminationOpened }) {
         pet,
         clientInfo.data[0]
       );
-      console.log(petInfo);
       navigate("/examination", {
         state: {
           petInfo,

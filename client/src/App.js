@@ -16,11 +16,11 @@ import ViewClient from "./pages/view-client/ViewClient";
 import ViewPet from "./pages/view-pet/ViewPet";
 
 function App() {
-  const { setUser } = useContext(GlobalContext);
+  // const { setUser } = useContext(GlobalContext);
 
-  useEffect(() => {
-    setUser({ role: "employee" });
-  }, []);
+  // useEffect(() => {
+  //   setUser({ role: "employee" });
+  // }, []);
 
   return (
     <>

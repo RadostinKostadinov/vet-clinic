@@ -5,11 +5,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // App modules
-import { addExamination } from "../../../../services/examinationsAPI";
+import { addExamination } from "../../../../services/fetchVetClinicAPI/examinationsAPI";
 import { CalendarContext } from "../../../../context/features/CalendarContext";
-import { getAllEmployees } from "../../../../services/employeesAPI";
-import { getClientsByTerm } from "../../../../services/clientsAPI";
-import { getPetsByClientId } from "../../../../services/petsAPI";
+import { getAllEmployees } from "../../../../services/fetchVetClinicAPI/employeesAPI";
+import { getClientsByTerm } from "../../../../services/fetchVetClinicAPI/clientsAPI";
+import { getPetsByClientId } from "../../../../services/fetchVetClinicAPI/petsAPI";
 
 import "./AddExaminationPopup.css";
 export default function AddExaminationPopup({ popupHour }) {
@@ -31,7 +31,7 @@ export default function AddExaminationPopup({ popupHour }) {
     getEmployees();
   }, []);
 
-  // Formik Logics
+  // Formik Configuration
   const formik = useFormik({
     initialValues: {
       clientName: "",
@@ -41,7 +41,6 @@ export default function AddExaminationPopup({ popupHour }) {
       employee: "",
       occasion: "",
     },
-
     // Validate Form
     validationSchema: Yup.object({
       clientName: Yup.string()
@@ -60,10 +59,8 @@ export default function AddExaminationPopup({ popupHour }) {
         .required("Задължително поле."),
       occasion: Yup.string().max(2000, "Максимална дължина 2000 символа."),
     }),
-
     validateOnChange: false,
     validateOnBlur: false,
-
     // Submit Form
     onSubmit: (values) => {
       const examination = {};
@@ -85,7 +82,7 @@ export default function AddExaminationPopup({ popupHour }) {
 
       // Checks if selected time slot is available
       const isFree = checkIsTimeIntervalFree(examinationDate, duration);
-      if (isFree == false) {
+      if (isFree === false) {
         alert("Вече има запазен час в избраният времеви интервал.");
         return;
       }
@@ -106,7 +103,7 @@ export default function AddExaminationPopup({ popupHour }) {
       examination.petId = pet.petId;
 
       const sendRequest = async () => {
-        const addedExamination = await addExamination(examination);
+        await addExamination(examination);
         alert("Успешно запазихте час.");
         setIsPopupVisible(false);
       };
@@ -136,7 +133,7 @@ export default function AddExaminationPopup({ popupHour }) {
       ) {
         current = true;
       }
-      if (current == false) {
+      if (current === false) {
         isFree = false;
       }
     });

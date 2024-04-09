@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // App modules
-import { getExaminationsByPetId } from "../../services/examinationsAPI";
+import { getExaminationsByPetId } from "../../services/fetchVetClinicAPI/examinationsAPI";
 import BarPetInfo from "./BarPetInfo";
 import ViewPetTableRow from "./ViewPetTableRow";
 
