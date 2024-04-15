@@ -14,7 +14,6 @@ function getAllPets() {
       .then((res) => {
         const pets = [];
         res.recordset.forEach((record) => pets.push(camelizeKeys(record)));
-        console.log(pets[0]);
         resolve(pets);
       })
       .catch((error) => {

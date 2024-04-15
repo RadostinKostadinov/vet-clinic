@@ -9,7 +9,7 @@ router.post('/client/login', authController.clientLogin);
 router.post('/employee/login', authController.employeeLogin);
 router.post('/refreshToken', authController.refreshToken);
 
-router.post('/logout', verifyJWT, authController.logout);
+router.get('/logout', verifyJWT, authController.logout);
 
 const authRouter = router;
 export default authRouter;

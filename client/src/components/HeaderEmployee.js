@@ -11,7 +11,7 @@ export default function HeaderEmployee({ firstName, lastName }) {
     <div className="header-employee ">
       <div className="side-element">
         <p className="glasseffect-body">
-          {firstName} {lastName}
+          {firstName} <br></br> {lastName}
         </p>
       </div>
       <div className="center-elements">

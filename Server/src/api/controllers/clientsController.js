@@ -21,7 +21,6 @@ export default {
  * @param {Response} res
  */
 async function getAllClients(req, res) {
-  console.log(req);
   try {
     const clientsList = await clientsTable.getClients();
 
@@ -123,14 +122,11 @@ async function getClientByUsername(req, res) {
 async function getClientsByTerm(req, res) {
   try {
     // ToDo: Validate search term
-    console.log('here');
-    console.log(req);
     clientValidations.firstName(req.params.searchTerm);
     const clientsList = await clientsTable.getClientsByTerm(
       req.params.searchTerm
     );
 
-    console.log(clientsList);
     const response = generateResponseObject(
       'success',
       `Number of clients : ${clientsList.length}`,

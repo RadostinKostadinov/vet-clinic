@@ -5,10 +5,10 @@ import { userLogout } from "../services/fetchVetClinicAPI/clientsAPI";
 
 export default function HeaderClient({ firstName, lastName }) {
   return (
-    <div className="header-employee ">
+    <div className="header-employee">
       <div className="side-element">
         <p className="glasseffect-body">
-          {firstName} {lastName}
+          {firstName} <br></br> {lastName}
         </p>
       </div>
       <div className="center-elements">
