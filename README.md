@@ -9,10 +9,10 @@ Vet-Clinic provides a user-friendly platform where clients can effortlessly mana
 - **Client Profiles:** Clients can create profiles for their pets, including essential details such as names, dates of birth, specific illnesses, peculiarities, allergies, etc...
 - **Appointment Booking:** Clients can schedule examination appointments for their pets, specifying preferred dates and times.
 - **Examination Management:** Detailed information can be added to each examination appointment, including specific areas for examination and preferred doctor.
-- **Employee Calendar Integration:** Employees, especially vet-doctors, can manage their schedules through a calendar interface similar to popular tools like Google Calendar.
+- **Employee Calendar Integration:** Employees(vet-doctors), can manage their schedules through a calendar interface similar to the popular tool Google Calendar.
 - **Comprehensive Pet Records:** All examination details are conveniently saved and accessible through the pet's profile, enabling easy reference for future appointments and ensuring continuity of care.
 - **Role-based Access:** The system distinguishes between employee and client roles, providing tailored functionalities and access levels for each user category.
-- **Employee Account Management:** Currently, employee accounts, particularly for vet-doctors, are created directly from the database.
+- **Employee Account Management:** Currently, employee accounts are created directly from the database.
 
 ## User Roles
 
