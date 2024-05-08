@@ -1,4 +1,4 @@
-![Vet Clinic](https://bitbucket.org/rk-personal-projects/vetclinic/raw/28ed52c7302e0d2c786abbb0f7e86b6114fe67d9/docs/Design%20Resources/Figma/readme_md_heading2.png)
+![Vet Clinic](https://raw.githubusercontent.com/RadostinKostadinov/vet-clinic/main/docs/Design%20Resources/Figma/readme_md_heading2.png)
 
 ## A Web application designed to streamline the management of examinations within a veterinary clinic
 
@@ -24,8 +24,8 @@ Vet-Clinic aims to enhance the efficiency and effectiveness of veterinary clinic
 
 ## Diagrams
 
-[Database model](https://bitbucket.org/rk-personal-projects/vetclinic/src/main/docs/Appplication%20Info/Database_Tables.jpg)
-[Sitemap](https://bitbucket.org/rk-personal-projects/vetclinic/src/main/docs/Appplication%20Info/Sitemap.png)<br>
+[Database model](https://github.com/RadostinKostadinov/vet-clinic/blob/main/docs/Appplication%20Info/Database_Tables.jpg)
+[Sitemap](https://github.com/RadostinKostadinov/vet-clinic/blob/main/docs/Appplication%20Info/Sitemap.png)<br>
 
 ### Tech Stack
 
