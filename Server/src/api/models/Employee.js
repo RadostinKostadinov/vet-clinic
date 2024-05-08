@@ -22,7 +22,7 @@ export default class Employee {
     publicEmployee.firstName = this.#firstName;
     publicEmployee.lastName = this.#lastName;
 
-    return JSON.stringify(publicEmployee);
+    return publicEmployee;
   };
 
   get employeeId() {
