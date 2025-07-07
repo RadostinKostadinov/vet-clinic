@@ -8,16 +8,21 @@ import HomeClient from "./home-client/HomeClient";
 import CalendarContextProvider from "../../context/features/CalendarContext";
 
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
+
 export default function Home() {
   const { user } = useContext(GlobalContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Vet Clinic";
   }, []);
 
-  if (user.role === undefined) {
-    window.location = "/login";
-  }
+  useEffect(() => {
+    if (user.role === undefined) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   return (
     <div className="home-wrapper">

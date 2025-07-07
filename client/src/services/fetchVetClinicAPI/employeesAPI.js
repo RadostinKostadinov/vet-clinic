@@ -3,10 +3,10 @@ export function getAllEmployees() {
     fetch(`http://localhost:5000/employees/getAll`)
       .then((res) => res.json())
       .then((dbResponse) => {
-        dbResponse = dbResponse.map((el) => {
-          return JSON.parse(el);
-        });
-        resolve(dbResponse);
+        // dbResponse = dbResponse.map((el) => {
+        //  return JSON.parse(el);
+        // });
+        resolve(dbResponse.data);
       });
   });
 }

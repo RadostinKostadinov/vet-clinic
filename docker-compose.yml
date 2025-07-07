@@ -1,0 +1,62 @@
+services:
+  db:
+    build: ./mssql
+    environment:
+      SA_PASSWORD: "yourStrongPassword123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks:
+      - app-network
+
+  db-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./mssql:/init
+      - ./mssql/entrypoint.sh:/db-init.sh
+    entrypoint: ["/bin/bash", "/db-init.sh"]
+    environment:
+      SA_PASSWORD: "yourStrongPassword123!"
+      ACCEPT_EULA: "Y"
+    networks:
+      - app-network
+
+
+  backend:
+    build: ./Server
+    ports:
+      - "5000:5000"
+    env_file:
+      ./Server/src/.env
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+  frontend:
+    build: ./client
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+
+volumes:
+  mssql-data:
+
+networks:
+  app-network:
+

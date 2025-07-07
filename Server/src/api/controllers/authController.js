@@ -68,8 +68,7 @@ async function clientLogin(req, res) {
     res.status(200).json(response);
   } catch (error) {
     console.error(
-      `[${new Date().toLocaleString()}] clientLogin(${req.body.username}): ${
-        error.message
+      `[${new Date().toLocaleString()}] clientLogin(${req.body.username}): ${error.message
       }`
     );
 
@@ -91,7 +90,7 @@ async function employeeLogin(req, res) {
     await refreshTokenTable.removeExpiredTokens();
 
     // Generate the data that will be saved in JWT
-    const userData = JSON.parse(dbUser.toJSON());
+    const userData = dbUser.toJSON();
     userData.role = GlobalVariables.userRoles.employee;
 
     // Generate JWTokens
@@ -133,8 +132,7 @@ async function employeeLogin(req, res) {
     res.status(200).json(response);
   } catch (error) {
     console.error(
-      `[${new Date().toLocaleString()}] employeeLogin(${req.body.username}): ${
-        error.message
+      `[${new Date().toLocaleString()}] employeeLogin(${req.body.username}): ${error.message
       }`
     );
 
